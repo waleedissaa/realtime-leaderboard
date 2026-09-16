@@ -26,4 +26,11 @@ public class RankingController {
     public PlayerStanding standing(@PathVariable String slug, @PathVariable long playerId) {
         return service.standing(slug, playerId);
     }
+
+    @GetMapping("/rankings")
+    public RankingsPage rankings(@PathVariable String slug,
+                                 @RequestParam(defaultValue = "10") int limit,
+                                 @RequestParam(defaultValue = "0") int offset) {
+        return service.rankings(slug, limit, offset);
+    }
 }
