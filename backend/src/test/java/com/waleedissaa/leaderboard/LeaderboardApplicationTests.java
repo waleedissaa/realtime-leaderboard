@@ -1,15 +1,11 @@
 package com.waleedissaa.leaderboard;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
-@Import(TestcontainersConfiguration.class)
-@SpringBootTest
-class LeaderboardApplicationTests {
+class LeaderboardApplicationTests extends AbstractIntegrationTest {
 
-	@Test
-	void contextLoads() {
-	}
-
+    @Test
+    void contextLoads() {
+        // Fails if the Spring context cannot start or Flyway cannot migrate.
+    }
 }
