@@ -33,6 +33,7 @@ public class ScoreRepository {
                 ON CONFLICT (leaderboard_id, player_id) DO UPDATE
                   SET best_score = EXCLUDED.best_score, achieved_at = EXCLUDED.achieved_at
                   WHERE leaderboard_entries.best_score < EXCLUDED.best_score
+                  
                 """)
                 .param("lb", leaderboardId)
                 .param("player", playerId)
