@@ -1,5 +1,6 @@
 package com.waleedissaa.leaderboard.ranking;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,15 @@ public class RankingController {
     }
 
     @GetMapping("/rankings")
-    public RankingsPage rankings(@PathVariable String slug,
-                                 @RequestParam(defaultValue = "10") int limit,
-                                 @RequestParam(defaultValue = "0") int offset) {
-        return service.rankings(slug, limit, offset);
+    public ResponseEntity<RankingsPage> rankings(
+            @PathVariable String slug,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(defaultValue = "0") int offset,
+            @RequestHeader(value = HttpHeaders.IF_NONE_MATCH, required = false) String ifNoneMatch) {
+        String tag = "\"" + service.currentVersion(slug) + "-" + limit + "-" + offset + "\"";
+        if (tag.equals(ifNoneMatch)) {
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).eTag(tag).build();
+        }
+        return ResponseEntity.ok().eTag(tag).body(service.rankings(slug, limit, offset));
     }
 }

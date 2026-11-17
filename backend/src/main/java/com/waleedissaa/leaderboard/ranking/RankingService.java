@@ -67,6 +67,11 @@ public class RankingService {
                 limit, offset, entries);
     }
 
+    @Transactional(readOnly = true)
+    public long currentVersion(String slug) {
+        return findBoard(slug).version();
+    }
+
     private Leaderboard findBoard(String slug) {
         return leaderboards.findBySlug(slug)
                 .orElseThrow(() -> new NotFoundException("Leaderboard '" + slug + "' not found"));

@@ -16,8 +16,9 @@ export default function App() {
   const load = useCallback(async () => {
     try {
       const data = await fetchRankings(SLUG);
-      setPage(data);
       setError(null);
+      if (data.unchanged) return; // 304: nothing moved, so skip the re-render
+      setPage(data);
 
       const changes = {};
       for (const entry of data.entries) {
